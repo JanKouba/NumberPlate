@@ -1,0 +1,209 @@
+﻿<Window x:Class="NumberPlate.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:NumberPlate"
+        
+        mc:Ignorable="d"
+        Title="MainWindow" Height="422" Width="800">
+    
+    <Window.Resources>
+        <ResourceDictionary Source="Styles.xaml"/>
+    </Window.Resources>
+    
+    <Grid Background="#323232">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="10*"/>
+            <RowDefinition Height="2*"/>
+            <RowDefinition Height="0*"/>
+
+        </Grid.RowDefinitions>
+
+        <Grid.ColumnDefinitions>
+
+            <ColumnDefinition Width="2*"/>
+            <ColumnDefinition Width="6*"/>
+        </Grid.ColumnDefinitions>
+
+        <Grid Grid.Row="0" Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="1*"/>
+                <RowDefinition Height="10*"/>
+            </Grid.RowDefinitions>
+
+            
+            <Grid Grid.Row="0" Grid.Column="0" >
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Viewbox>
+                        <Label x:Name="labelWifi" Content="Wi-Fi" Foreground="White"/>
+                    </Viewbox>
+                    <Viewbox Grid.Column="1">
+                        <Label x:Name="labelIpAddress" Content="###.###.###.###" Foreground="White"/>
+                    </Viewbox>
+                    <Viewbox Grid.Column="2">
+                        <Label x:Name="labelTreshold" Content="Treshold" Foreground="White"/>
+                    </Viewbox>
+                </Grid>
+           
+            <Viewbox Grid.Row="1">
+                <Label x:Name="labelValue" Content="FF" Style="{StaticResource Label7SegmentGreen}" />
+            </Viewbox>
+            
+        </Grid>
+        
+            
+           
+     
+
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <Viewbox Grid.Row="0">
+                <Label x:Name="Commands" Content="Commands:"  Foreground="Gray"/>
+            </Viewbox>
+
+            <Button x:Name="buttonSetSsid" Content="Set SSID" Style="{StaticResource ButtonCommand}" Click="buttonConnectWifi_Click" Grid.Row="3">
+                <Button.ContentTemplate>
+                    <DataTemplate>
+                        <Viewbox>
+                            <TextBlock>Set SSID</TextBlock>
+                        </Viewbox>
+                    </DataTemplate>
+                </Button.ContentTemplate>
+            </Button>
+
+            <Button x:Name="buttonSetPassword" Content="Set password" Style="{StaticResource ButtonCommand}" Click="buttonConnectWifi_Click" Grid.Row="4">
+                <Button.ContentTemplate>
+                    <DataTemplate>
+                        <Viewbox>
+                            <TextBlock>Set password</TextBlock>
+                        </Viewbox>
+                    </DataTemplate>
+                </Button.ContentTemplate>
+            </Button>
+
+
+            <Button x:Name="buttonConnectWifi" Content="Connect Wifi" Style="{StaticResource ButtonCommand}" Click="buttonConnectWifi_Click" Grid.Row="5">
+                <Button.ContentTemplate>
+                    <DataTemplate>
+                        <Viewbox>
+                            <TextBlock>Connect Wi-Fi</TextBlock>
+                        </Viewbox>
+                    </DataTemplate>
+                </Button.ContentTemplate>
+            </Button>
+            <Button x:Name="buttonDisconnectWifi" Content="Disconnect Wifi" Style="{StaticResource ButtonCommand}" Click="buttonDisconnectWifi_Click" Grid.Row="6">
+                <Button.ContentTemplate>
+                    <DataTemplate>
+                        <Viewbox>
+                            <TextBlock>Disconnect Wifi</TextBlock>
+                        </Viewbox>
+                    </DataTemplate>
+                </Button.ContentTemplate>
+            </Button>
+            <Button x:Name="buttonGetStatus" Content="Get Status" Style="{StaticResource ButtonCommand}" Click="buttonGetStatus_Click" Grid.Row="7">
+                <Button.ContentTemplate>
+                    <DataTemplate>
+                        <Viewbox>
+                            <TextBlock>Get Status</TextBlock>
+                        </Viewbox>
+                    </DataTemplate>
+                </Button.ContentTemplate>
+            </Button>
+            <Button x:Name="buttonPlus" Content="Plus" Style="{StaticResource ButtonCommand}" Click="buttonPlus_Click" Grid.Row="8">
+                <Button.ContentTemplate>
+                    <DataTemplate>
+                        <Viewbox>
+                            <TextBlock>Plus (+)</TextBlock>
+                        </Viewbox>
+                    </DataTemplate>
+                </Button.ContentTemplate>
+            </Button>
+            <Button x:Name="buttonMinus" Content="Minus" Style="{StaticResource ButtonCommand}" Click="buttonMinus_Click" Grid.Row="9">
+                <Button.ContentTemplate>
+                    <DataTemplate>
+                        <Viewbox>
+                            <TextBlock>Minus (-)</TextBlock>
+                        </Viewbox>
+                    </DataTemplate>
+                </Button.ContentTemplate>
+            </Button>
+            
+            <TextBox x:Name="textBoxValue" Style="{StaticResource TextBox}" Grid.Row="10"></TextBox>
+            <TextBlock Width="{Binding ElementName=textBoxValue, Path=ActualWidth}" Height="Auto" />
+
+            <Viewbox x:Name="viewboxNonWork" HorizontalAlignment ="Right" Visibility="Hidden">
+                <Label x:Name="labelBusy" Content="Busy..." FontWeight="Bold" Foreground="Yellow">
+                    <Label.Triggers>
+                        <EventTrigger RoutedEvent="Label.Loaded">
+                            <EventTrigger.Actions>
+                                <BeginStoryboard>
+                                    <Storyboard BeginTime="00:00:00" RepeatBehavior="Forever" Storyboard.TargetName="labelBusy" Storyboard.TargetProperty="Visibility">
+                                        <DoubleAnimation Storyboard.TargetProperty="Opacity" From="1" To="0" AutoReverse="True" Duration="0:0:0.5" RepeatBehavior="Forever" />
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </EventTrigger.Actions>
+                        </EventTrigger>
+                    </Label.Triggers>
+                </Label>
+            </Viewbox>
+
+            <Button x:Name="buttonSetValue"  Content="Set value" Style="{StaticResource ButtonCommand}" Click="buttonSetValue_Click" Grid.Row="11">
+                <Button.ContentTemplate>
+                    <DataTemplate>
+                        <Viewbox>
+                            <TextBlock>Set value</TextBlock>
+                        </Viewbox>
+                    </DataTemplate>
+                </Button.ContentTemplate>
+            </Button>
+            <Button x:Name="buttonSetTreshold" Content="Set treshold" Style="{StaticResource ButtonCommand}" Click="buttonSetTreshold_Click" Grid.Row="12">
+                <Button.ContentTemplate>
+                    <DataTemplate>
+                        <Viewbox>
+                            <TextBlock>Set treshold</TextBlock>
+                        </Viewbox>
+                    </DataTemplate>
+                </Button.ContentTemplate>
+            </Button>
+            <StackPanel Orientation="Horizontal" Grid.Row="1">
+                <Button x:Name="buttonConnectSerial" Content="Connect via" Style="{StaticResource ButtonCommand}" Click="buttonConnectSerial_Click" IsEnabled="True">
+                    <Button.ContentTemplate>
+                        <DataTemplate>
+                            <Viewbox Margin="1">
+                                <TextBlock>Connect via</TextBlock>
+                            </Viewbox>
+                        </DataTemplate>
+                    </Button.ContentTemplate>
+                </Button>
+                <Viewbox>
+                <ComboBox x:Name="comboBoxComPort" Margin="5" DropDownOpened="comboBoxComPort_DropDownOpened"  />
+                </Viewbox>
+            </StackPanel>
+        </Grid>
+     
+
+        <TextBox x:Name="textBoxLog" Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2" VerticalScrollBarVisibility="Auto" Margin="2" Background="Black" Foreground="Lime" FontSize="11"></TextBox>
+
+    </Grid>
+</Window>
