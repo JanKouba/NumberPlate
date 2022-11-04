@@ -122,7 +122,7 @@ namespace NumberPlate
 
         public void SetPassword(string password)
         {
-            serialPort.Write("password " + password);
+            serialPort.Write("pass " + password);
         }
     }
 

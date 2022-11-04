@@ -224,7 +224,7 @@ namespace NumberPlate
                 }
                 else 
                 {
-                    device = new DeviceWeb("172.15.2.47");
+                    device = new DeviceWeb(labelIpAddress.Content.ToString());
                     BusyChange(true);
                     connectionType = ConnectionType.Wifi;
                 }
@@ -233,6 +233,16 @@ namespace NumberPlate
                 Thread.Sleep(1500);
                 device.GetStatus();
             }
+        }
+
+        private void buttonSetPassword_Click(object sender, RoutedEventArgs e)
+        {
+            ((DeviceSerial)device).SetPassword(textBoxTextValue.Text);
+        }
+
+        private void buttonSetSsid_Click(object sender, RoutedEventArgs e)
+        {
+            ((DeviceSerial)device).SetSSID(textBoxTextValue.Text);
         }
     }
 

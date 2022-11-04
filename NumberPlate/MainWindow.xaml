@@ -82,7 +82,9 @@
                 <Label x:Name="Commands" Content="Commands:"  Foreground="Gray"/>
             </Viewbox>
 
-            <Button x:Name="buttonSetSsid" Content="Set SSID" Style="{StaticResource ButtonCommand}" Click="buttonConnectWifi_Click" Grid.Row="3">
+            <TextBox x:Name="textBoxTextValue" Style="{StaticResource TextBox}" Grid.Row="2"></TextBox>
+
+            <Button x:Name="buttonSetSsid" Content="Set SSID" Style="{StaticResource ButtonCommand}" Click="buttonSetSsid_Click" Grid.Row="3">
                 <Button.ContentTemplate>
                     <DataTemplate>
                         <Viewbox>
@@ -92,7 +94,7 @@
                 </Button.ContentTemplate>
             </Button>
 
-            <Button x:Name="buttonSetPassword" Content="Set password" Style="{StaticResource ButtonCommand}" Click="buttonConnectWifi_Click" Grid.Row="4">
+            <Button x:Name="buttonSetPassword" Content="Set password" Style="{StaticResource ButtonCommand}" Click="buttonSetPassword_Click" Grid.Row="4">
                 <Button.ContentTemplate>
                     <DataTemplate>
                         <Viewbox>
