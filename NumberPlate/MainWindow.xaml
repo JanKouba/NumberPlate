@@ -40,14 +40,34 @@
                         <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    
                     <Viewbox>
-                        <Label x:Name="labelWifi" Content="Wi-Fi" Foreground="White"/>
+                        <Label x:Name="labelWifi" Content="{DynamicResource labelWifiAvailable}" Foreground="White"/>
                     </Viewbox>
+
                     <Viewbox Grid.Column="1">
+                        <Label x:Name="labelWifiSsid" Content="SSID" Foreground="White"/>
+                    </Viewbox>
+
+                    <Viewbox Grid.Column="2">
+                        <Label x:Name="labelWifiPass" Content="Password" Foreground="White" />
+                    </Viewbox>
+                    
+                </Grid>
+                <Viewbox Grid.Column="1">
                         <Label x:Name="labelIpAddress" Content="###.###.###.###" Foreground="White"/>
                     </Viewbox>
-                    <Viewbox Grid.Column="2">
-                        <Label x:Name="labelTreshold" Content="Treshold" Foreground="White"/>
+                <Viewbox Grid.Column="2">
+                    <Label x:Name="labelMacAddress" Content="ff:ff:ff:ff:ff:ff" Foreground="White"/>
+                </Viewbox>
+                <Viewbox Grid.Column="3">
+                        <Label x:Name="labelTreshold" Content="{DynamicResource labelTreshold}" Foreground="White"/>
                     </Viewbox>
                 </Grid>
            
@@ -56,11 +76,6 @@
             </Viewbox>
             
         </Grid>
-        
-            
-           
-     
-
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="*"/>
@@ -78,34 +93,70 @@
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
 
-            <Viewbox Grid.Row="0">
-                <Label x:Name="Commands" Content="Commands:"  Foreground="Gray"/>
+            <Viewbox Grid.Row="1">
+                <Label x:Name="Commands" Content="{DynamicResource labelCommands}"  Foreground="Gray"/>
             </Viewbox>
 
-            <TextBox x:Name="textBoxTextValue" Style="{StaticResource TextBox}" Grid.Row="2"></TextBox>
+            <Border Grid.Row="2" Grid.RowSpan="3" BorderThickness="3" BorderBrush="White">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
 
-            <Button x:Name="buttonSetSsid" Content="Set SSID" Style="{StaticResource ButtonCommand}" Click="buttonSetSsid_Click" Grid.Row="3">
-                <Button.ContentTemplate>
-                    <DataTemplate>
-                        <Viewbox>
-                            <TextBlock>Set SSID</TextBlock>
+                    <Grid Grid.Row="0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition></ColumnDefinition>
+                            <ColumnDefinition></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <Viewbox Grid.Column="0">
+                            <Label Content="{DynamicResource labelWifiMode}" Foreground="White"/>
                         </Viewbox>
-                    </DataTemplate>
-                </Button.ContentTemplate>
-            </Button>
-
-            <Button x:Name="buttonSetPassword" Content="Set password" Style="{StaticResource ButtonCommand}" Click="buttonSetPassword_Click" Grid.Row="4">
-                <Button.ContentTemplate>
-                    <DataTemplate>
-                        <Viewbox>
-                            <TextBlock>Set password</TextBlock>
+                        <Viewbox Grid.Column="1" HorizontalAlignment="Left" Margin="4">
+                            <StackPanel Orientation="Horizontal" >
+                                <CheckBox x:Name="checkBoxWifiMode" Style="{StaticResource OrangeSwitchStyle}" Checked="CheckBox_Checked" Unchecked="CheckBox_Unchecked"/>
+                                <CheckBox x:Name="checkBoxWifiMode_Copy" Style="{StaticResource OrangeSwitchStyle}" Checked="checkBoxWifiMode_Copy_Checked" Unchecked="checkBoxWifiMode_Copy_Unchecked"/>
+                            </StackPanel>
                         </Viewbox>
-                    </DataTemplate>
-                </Button.ContentTemplate>
-            </Button>
+                    </Grid>
 
+                    <Grid Grid.Row="1">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition></ColumnDefinition>
+                            <ColumnDefinition></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <Viewbox>
+                            <Label Content="{DynamicResource labelWifiSsidPassword}" Foreground="White"/>
+                        </Viewbox>
+                        <TextBox x:Name="textBoxTextValue" Style="{StaticResource TextBox}" HorizontalAlignment="Stretch" Grid.Column="1" Width="{Binding ElementName=*ParentElement*, Path=ActualWidth}" 
+                        Height="Auto" FontSize="15"></TextBox>
+                    </Grid>
 
-            <Button x:Name="buttonConnectWifi" Content="Connect Wifi" Style="{StaticResource ButtonCommand}" Click="buttonConnectWifi_Click" Grid.Row="5">
+                    <Button x:Name="buttonSetSsid" Content="{DynamicResource captionbuttonsetPassword}" Style="{StaticResource ButtonCommand}" Click="buttonSetSsid_Click" Grid.Row="2">
+                        <Button.ContentTemplate>
+                            <DataTemplate>
+                                <Viewbox>
+                                    <TextBlock>Set SSID</TextBlock>
+                                </Viewbox>
+                            </DataTemplate>
+                        </Button.ContentTemplate>
+                    </Button>
+
+                    <Button x:Name="buttonSetPassword" Content="{DynamicResource buttonsetPassword}" Style="{StaticResource ButtonCommand}" Click="buttonSetPassword_Click" Grid.Row="3">
+                        <Button.ContentTemplate>
+                            <DataTemplate>
+                                <Viewbox>
+                                    <TextBlock>Set password</TextBlock>
+                                </Viewbox>
+                            </DataTemplate>
+                        </Button.ContentTemplate>
+                    </Button>
+                </Grid>
+            </Border>
+
+            <Button x:Name="buttonConnectWifi" Content="{DynamicResource buttonConnectWifi}" Style="{StaticResource ButtonCommand}" Click="buttonConnectWifi_Click" Grid.Row="5">
                 <Button.ContentTemplate>
                     <DataTemplate>
                         <Viewbox>
@@ -114,7 +165,7 @@
                     </DataTemplate>
                 </Button.ContentTemplate>
             </Button>
-            <Button x:Name="buttonDisconnectWifi" Content="Disconnect Wifi" Style="{StaticResource ButtonCommand}" Click="buttonDisconnectWifi_Click" Grid.Row="6">
+            <Button x:Name="buttonDisconnectWifi" Content="{DynamicResource buttondisconnectWifi}" Style="{StaticResource ButtonCommand}" Click="buttonDisconnectWifi_Click" Grid.Row="6">
                 <Button.ContentTemplate>
                     <DataTemplate>
                         <Viewbox>
@@ -123,7 +174,7 @@
                     </DataTemplate>
                 </Button.ContentTemplate>
             </Button>
-            <Button x:Name="buttonGetStatus" Content="Get Status" Style="{StaticResource ButtonCommand}" Click="buttonGetStatus_Click" Grid.Row="7">
+            <Button x:Name="buttonGetStatus" Content="{DynamicResource buttongetStatus}" Style="{StaticResource ButtonCommand}" Click="buttonGetStatus_Click" Grid.Row="7">
                 <Button.ContentTemplate>
                     <DataTemplate>
                         <Viewbox>
@@ -152,7 +203,7 @@
             </Button>
             
             <TextBox x:Name="textBoxValue" Style="{StaticResource TextBox}" Grid.Row="10"></TextBox>
-            <TextBlock Width="{Binding ElementName=textBoxValue, Path=ActualWidth}" Height="Auto" />
+            
 
             <Viewbox x:Name="viewboxNonWork" HorizontalAlignment ="Right" Visibility="Hidden">
                 <Label x:Name="labelBusy" Content="Busy..." FontWeight="Bold" Foreground="Yellow">
@@ -170,7 +221,7 @@
                 </Label>
             </Viewbox>
 
-            <Button x:Name="buttonSetValue"  Content="Set value" Style="{StaticResource ButtonCommand}" Click="buttonSetValue_Click" Grid.Row="11">
+            <Button x:Name="buttonSetValue"  Content="{DynamicResource buttonsetValue}" Style="{StaticResource ButtonCommand}" Click="buttonSetValue_Click" Grid.Row="11">
                 <Button.ContentTemplate>
                     <DataTemplate>
                         <Viewbox>
@@ -179,7 +230,7 @@
                     </DataTemplate>
                 </Button.ContentTemplate>
             </Button>
-            <Button x:Name="buttonSetTreshold" Content="Set treshold" Style="{StaticResource ButtonCommand}" Click="buttonSetTreshold_Click" Grid.Row="12">
+            <Button x:Name="buttonSetTreshold" Content="{DynamicResource buttonsettreshold}" Style="{StaticResource ButtonCommand}" Click="buttonSetTreshold_Click" Grid.Row="12">
                 <Button.ContentTemplate>
                     <DataTemplate>
                         <Viewbox>
@@ -188,8 +239,8 @@
                     </DataTemplate>
                 </Button.ContentTemplate>
             </Button>
-            <StackPanel Orientation="Horizontal" Grid.Row="1">
-                <Button x:Name="buttonConnectSerial" Content="Connect via" Style="{StaticResource ButtonCommand}" Click="buttonConnectSerial_Click" IsEnabled="True">
+            <StackPanel Orientation="Horizontal" Grid.Row="0">
+                <Button x:Name="buttonConnectSerial" Content="{DynamicResource buttonConnect}" Style="{StaticResource ButtonCommand}" Click="buttonConnectSerial_Click" IsEnabled="True">
                     <Button.ContentTemplate>
                         <DataTemplate>
                             <Viewbox Margin="1">
@@ -199,8 +250,9 @@
                     </Button.ContentTemplate>
                 </Button>
                 <Viewbox>
-                <ComboBox x:Name="comboBoxComPort" Margin="5" DropDownOpened="comboBoxComPort_DropDownOpened"  />
+                    <ComboBox x:Name="comboBoxComPort" Margin="5" DropDownOpened="comboBoxComPort_DropDownOpened"  />
                 </Viewbox>
+               
             </StackPanel>
         </Grid>
      

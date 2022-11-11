@@ -4,6 +4,6 @@
              xmlns:local="clr-namespace:NumberPlate"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
-         
+        <ResourceDictionary Source="Lang\Dict-en.xaml"/>
     </Application.Resources>
 </Application>

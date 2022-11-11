@@ -26,7 +26,6 @@ namespace NumberPlate
         event EventHandler MessageReceived;
     }
 
-
     public class DeviceSerial : Device
     {
         SerialPort serialPort = new SerialPort();
@@ -86,6 +85,17 @@ namespace NumberPlate
         public void WifiDisonnect()
         {
             serialPort.Write("disconnect");
+        }
+
+        public void WifiSetMode(WifiMode mode)
+        {
+            if (!busy)
+            { 
+                if (mode == NumberPlate.WifiMode.APMode)
+                    serialPort.Write("wifimode ap");
+                if (mode == NumberPlate.WifiMode.ClientMode)
+                    serialPort.Write("wifimode client");
+            }
         }
 
         public void GetStatus()
@@ -198,5 +208,11 @@ namespace NumberPlate
         {
             Message = message;
         }
+    }
+
+    public enum WifiMode
+    {
+        APMode,
+        ClientMode
     }
 }

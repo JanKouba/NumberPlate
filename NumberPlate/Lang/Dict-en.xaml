@@ -1,0 +1,20 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                     xmlns:system="clr-namespace:System;assembly=mscorlib">
+
+    <system:String x:Key="buttonConnect">Connect via</system:String>
+    <system:String x:Key="labelTreshold">Treshold</system:String>
+    <system:String x:Key="buttonSetSsid">Set SSID</system:String>
+    <system:String x:Key="captionbuttonsetPassword">Set Password</system:String>
+    <system:String x:Key="buttonConnectWifi">Connect Wifi</system:String>
+    <system:String x:Key="buttonDisconnectWifi">Disconnect Wifi</system:String>
+    <system:String x:Key="buttonGetStatus">Get status</system:String>
+    <system:String x:Key="buttonSetValue">Set value</system:String>
+    <system:String x:Key="buttonSetTreshold">Set treshold</system:String>
+    <system:String x:Key="labelWifiAvailable">Wifi available</system:String>
+    <system:String x:Key="labelWifiUnavailable">Wifi unavailable</system:String>
+    <system:String x:Key="labelWifiMode">Wifi mode:</system:String>
+    <system:String x:Key="labelWifiSsidPassword">SSID / Password:</system:String>
+    <system:String x:Key="labelCommands">Commands</system:String>
+
+</ResourceDictionary>

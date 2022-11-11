@@ -1,0 +1,20 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"                   
+                    xmlns:system="clr-namespace:System;assembly=mscorlib">
+
+    <system:String x:Key="buttonConnect">Připojit</system:String>
+    <system:String x:Key="labelTreshold">Hranice</system:String>
+    <system:String x:Key="buttonSetSsid">Nastavit SSID</system:String>
+    <system:String x:Key="captionbuttonsetPassword">Nastavit heslo</system:String>
+    <system:String x:Key="buttonConnectWifi">Připojit Wifi</system:String>
+    <system:String x:Key="buttonDisconnectWifi">Odpojit Wifi</system:String>
+    <system:String x:Key="buttonGetStatus">Získat aktuální stav</system:String>
+    <system:String x:Key="buttonSetValue">Nastavit hodnotu</system:String>
+    <system:String x:Key="buttonSetTreshold">Nastavit hranici</system:String>
+    <system:String x:Key="labelWifiAvailable">Wifi dostupná</system:String>
+    <system:String x:Key="labelWifiUnavailable">Wifi nedostupná</system:String>
+    <system:String x:Key="labelWifiMode">Mód Wifi:</system:String>
+    <system:String x:Key="labelWifiSsidPassword">SSID / Heslo:</system:String>
+    <system:String x:Key="labelCommands">Příkazy</system:String>
+    
+</ResourceDictionary>

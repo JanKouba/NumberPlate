@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.IO.Ports;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -14,6 +16,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Xml.Serialization;
 using ToggleSwitch;
 
 
@@ -26,11 +29,46 @@ namespace NumberPlate
     {
         Device device;
         ConnectionType connectionType = ConnectionType.None;
+        Settings settings = new Settings();
+
+        int langCode = 1029;
 
         public MainWindow()
         {
             InitializeComponent();
             GetPorts();
+            SetLanguage();
+
+            Socket s = new Socket();
+        }
+
+        private void SetLanguage()
+        {
+            ResourceDictionary dict = new ResourceDictionary();
+            switch (langCode)
+            {
+                case 1033:
+                    dict.Source = new Uri("..\\Lang\\Dict-en.xaml", UriKind.Relative);
+                    break;
+                case 1029:
+                    dict.Source = new Uri("..\\Lang\\Dict-cz.xaml", UriKind.Relative);
+                    break;
+            }
+            this.Resources.MergedDictionaries.Add(dict);
+
+        }
+
+        private void SaveSettings()
+        {
+            settings.SSID = "nazev_site";
+            settings.Password = "zmrde";
+
+            XmlSerializer writer = new XmlSerializer(settings.GetType());
+
+            using (StreamWriter file = new StreamWriter("data.xml"))
+            {
+                writer.Serialize(file, settings);
+            }
         }
 
         private void BusyChange(bool busy)
@@ -100,6 +138,7 @@ namespace NumberPlate
 
             DeserializeMessage(message);
 
+            //In case of some settigns changed, call Status
             if (message.Contains("is set to:") && connectionType == ConnectionType.Serial)
                 device.GetStatus();
             else
@@ -110,6 +149,8 @@ namespace NumberPlate
         {
             this.Dispatcher.Invoke(new Action(() =>
             {
+                string macAddress = string.Empty;
+
                 string[] messagePart = message.Split('|');
                 int messageLength = messagePart.Length;
 
@@ -135,8 +176,24 @@ namespace NumberPlate
                                 labelWifi.Content = "Wi-Fi unavaliable";
                             }
                             break;
+                        case "ssid":
+                            labelWifiSsid.Content = messagePartSub[1];
+                            break;
+                        case "password":
+                            labelWifiPass.Content = messagePartSub[1];
+                            break;
+                        case "wifimode":
+                            if (messagePartSub[1] == "ap")
+                                checkBoxWifiMode.IsChecked = true;
+                            if (messagePartSub[1] == "client")
+                                checkBoxWifiMode.IsChecked = false;
+                            break;
                         case "ip":
                             labelIpAddress.Content = messagePartSub[1];
+                            break;
+                        case "mac":
+                            macAddress = String.Join(":", messagePartSub[1..]);
+                            labelMacAddress.Content = macAddress;
                             break;
                         case "result":
                             if (messagePartSub[1].Trim('\r') == "1")
@@ -158,10 +215,9 @@ namespace NumberPlate
 
                     currentMessagePart++;
                 }
-
-               
             }
-            ));
+            )
+            );
         }
 
         private void buttonConnectWifi_Click(object sender, RoutedEventArgs e)
@@ -224,7 +280,7 @@ namespace NumberPlate
                 }
                 else 
                 {
-                    device = new DeviceWeb(labelIpAddress.Content.ToString());
+                    device = new DeviceWeb(textBoxTextValue.Text);
                     BusyChange(true);
                     connectionType = ConnectionType.Wifi;
                 }
@@ -244,6 +300,35 @@ namespace NumberPlate
         {
             ((DeviceSerial)device).SetSSID(textBoxTextValue.Text);
         }
+
+        private void CheckBox_Checked(object sender, RoutedEventArgs e)
+        {
+            BusyChange(true);
+            ((DeviceSerial)device).WifiSetMode(WifiMode.APMode);
+        }
+
+        private void CheckBox_Unchecked(object sender, RoutedEventArgs e)
+        {
+            BusyChange(true);
+            ((DeviceSerial)device).WifiSetMode(WifiMode.ClientMode);
+        }
+
+        private void comboBoxWifiMode_DropDownOpened(object sender, EventArgs e)
+        {
+
+        }
+
+        private void checkBoxWifiMode_Copy_Checked(object sender, RoutedEventArgs e)
+        {
+            langCode = 1029;
+            SetLanguage();
+        }
+
+        private void checkBoxWifiMode_Copy_Unchecked(object sender, RoutedEventArgs e)
+        {
+            langCode = 1033;
+            SetLanguage();
+        }
     }
 
     public enum ConnectionType
@@ -251,5 +336,12 @@ namespace NumberPlate
         None,
         Serial,
         Wifi
+    }
+
+    public struct Settings
+    {
+        public string Password;
+        public string SSID;
+        public string IpAddress;
     }
 }
